@@ -9,13 +9,13 @@ COPY *.csproj ./
 RUN dotnet restore 
 
 # Copy the rest of the application code to the container 
-COPY ./ ./
+COPY . ./
 
 # Build the application 
 RUN dotnet publish -c Release -o out 
 
 # Створюємо фінальний образ з .NET Core runtime
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 
 WORKDIR /app 
 COPY --from=build-env /app/out .
 
