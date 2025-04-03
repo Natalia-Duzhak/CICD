@@ -1,25 +1,25 @@
+# Створення образу для збирання додатка
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 
-# Set the working directory inside the container
+# Встановлюємо робочу директорію всередині контейнера
 WORKDIR /app
 
-# Copy the project files to the container
+# Копіюємо файли проекту
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy the rest of the application code to the container
+# Копіюємо решту файлів додатка
 COPY . ./
 
-# Build the application
+# Створюємо додаток
 RUN dotnet publish -c Release -o out
 
-# Create the final image using the .NET Core runtime image
+# Створюємо фінальний образ з використанням ASP.NET Core
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build-env /app/out .
 
+# Копіюємо зібраний додаток з попереднього етапу
+COPY --from=build-env /app/out ./
 
-# Run the application
-#ENTRYPOINT ["dotnet", "dotnetwebapp.dll"]
+# Вказуємо точку входу для додатка
 ENTRYPOINT ["dotnet", "dotnetwebapp.dll", "--urls", "http://*:5000"]
-
