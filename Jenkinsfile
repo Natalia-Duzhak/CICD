@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'dotnetwebapp', url: 'https://github.com/Natalia-Duzhak/CICD.git'
+                git branch: 'dotnetwebapp', url: 'https://github.com/kss7/CICDJenkins.git'
                 sh 'ls -la'
             }
         }
